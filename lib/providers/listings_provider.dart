@@ -2,7 +2,6 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/book_model.dart';
-import '../services/firestore_service.dart';
 import '../services/storage_service.dart';
 import 'auth_provider.dart';
 

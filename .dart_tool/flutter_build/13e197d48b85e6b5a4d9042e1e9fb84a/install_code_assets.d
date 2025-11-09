@@ -1,0 +1,1 @@
+ C:\\Users\\PC\\Documents\\bookswap\\Bookswap_flutter\\.dart_tool\\flutter_build\\13e197d48b85e6b5a4d9042e1e9fb84a\\native_assets.json: 

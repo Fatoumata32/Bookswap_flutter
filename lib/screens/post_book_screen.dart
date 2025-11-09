@@ -72,37 +72,32 @@ class _PostBookScreenState extends ConsumerState<PostBookScreen> {
     final user = ref.read(currentUserProvider);
     if (user == null) return;
 
-    // For new book, image is required
-    if (widget.book == null && _imageFile == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select a book cover image'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
     setState(() => _isLoading = true);
 
     try {
       final firestoreService = ref.read(firestoreServiceProvider);
       final storageService = ref.read(storageServiceProvider);
 
-      String imageUrl = widget.book?.imageUrl ?? '';
+      // Use placeholder image if none selected
+      String imageUrl = widget.book?.imageUrl ?? 'https://via.placeholder.com/400x600.png?text=Book+Cover';
 
       // Upload new image if selected
       if (_imageFile != null) {
-        // Delete old image if updating
-        if (widget.book != null && widget.book!.imageUrl.isNotEmpty) {
-          await storageService.deleteImage(widget.book!.imageUrl);
+        // Delete old image if updating (but not placeholder)
+        if (widget.book != null &&
+            widget.book!.imageUrl.isNotEmpty &&
+            !widget.book!.imageUrl.contains('placeholder')) {
+          try {
+            await storageService.deleteImage(widget.book!.imageUrl);
+          } catch (e) {
+            // Ignore deletion errors
+          }
         }
         imageUrl = await storageService.uploadBookImage(_imageFile!, user.uid);
       }
 
-      // Get user profile for name
-      final userProfile = await firestoreService.getUserProfile(user.uid);
-      final userName = userProfile?.displayName ?? 'Unknown';
+      // Get user name
+      final userName = user.displayName ?? user.email?.split('@')[0] ?? 'Anonymous';
 
       if (widget.book == null) {
         // Create new book
@@ -209,6 +204,14 @@ class _PostBookScreenState extends ConsumerState<PostBookScreen> {
                                 Text(
                                   'Tap to add book cover',
                                   style: TextStyle(color: Colors.grey[400]),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '(Optional - placeholder will be used)',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ],
                             ),

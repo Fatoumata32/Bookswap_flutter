@@ -28,11 +28,15 @@ class FirestoreService {
     return _firestore
         .collection('books')
         .where('ownerId', isEqualTo: userId)
-        .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => Book.fromJson(doc.data(), doc.id))
-            .toList());
+        .map((snapshot) {
+      final books = snapshot.docs
+          .map((doc) => Book.fromJson(doc.data(), doc.id))
+          .toList();
+      // Sort in memory to avoid composite index requirement
+      books.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      return books;
+    });
   }
 
   // Get single book by ID
@@ -93,11 +97,15 @@ class FirestoreService {
     return _firestore
         .collection('swapOffers')
         .where('participantIds', arrayContains: userId)
-        .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => SwapOffer.fromJson(doc.data(), doc.id))
-            .toList());
+        .map((snapshot) {
+      final offers = snapshot.docs
+          .map((doc) => SwapOffer.fromJson(doc.data(), doc.id))
+          .toList();
+      // Sort in memory to avoid composite index requirement
+      offers.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      return offers;
+    });
   }
 
   // Update swap offer status
@@ -154,11 +162,15 @@ class FirestoreService {
     return _firestore
         .collection('chats')
         .where('participantIds', arrayContains: userId)
-        .orderBy('lastMessageTime', descending: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => Chat.fromJson(doc.data(), doc.id))
-            .toList());
+        .map((snapshot) {
+      final chats = snapshot.docs
+          .map((doc) => Chat.fromJson(doc.data(), doc.id))
+          .toList();
+      // Sort in memory to avoid composite index requirement
+      chats.sort((a, b) => b.lastMessageTime.compareTo(a.lastMessageTime));
+      return chats;
+    });
   }
 
   // Send message

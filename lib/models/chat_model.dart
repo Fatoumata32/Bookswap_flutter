@@ -29,7 +29,9 @@ class Chat {
       bookId: json['bookId'],
       bookTitle: json['bookTitle'],
       lastMessage: json['lastMessage'] ?? '',
-      lastMessageTime: (json['lastMessageTime'] as Timestamp).toDate(),
+      lastMessageTime: json['lastMessageTime'] != null
+          ? (json['lastMessageTime'] as Timestamp).toDate()
+          : DateTime.now(),
     );
   }
 
@@ -63,7 +65,9 @@ class Message {
       id: id,
       senderId: json['senderId'] ?? '',
       text: json['text'] ?? '',
-      timestamp: (json['timestamp'] as Timestamp).toDate(),
+      timestamp: json['timestamp'] != null
+          ? (json['timestamp'] as Timestamp).toDate()
+          : DateTime.now(),
     );
   }
 

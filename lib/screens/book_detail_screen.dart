@@ -276,7 +276,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                         Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.orange.withOpacity(0.2),
+                            color: Colors.orange.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(color: Colors.orange),
                           ),

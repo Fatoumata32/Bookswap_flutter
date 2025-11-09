@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/auth_provider.dart';
+import 'debug_screen.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -19,6 +20,18 @@ class SettingsScreen extends ConsumerWidget {
             leading: const Icon(Icons.person),
             title: const Text('Account'),
             subtitle: Text(authState.value?.email ?? 'Not signed in'),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.bug_report, color: Color(0xFFFDB839)),
+            title: const Text('Firestore Debug'),
+            subtitle: const Text('Test Firestore connection'),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const DebugScreen()),
+              );
+            },
           ),
           const Divider(),
           ListTile(

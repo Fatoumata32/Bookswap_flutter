@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/listings_provider.dart';
-import '../providers/auth_provider.dart';
 import '../widgets/book_card.dart';
 import '../widgets/loading_spinner.dart';
 import 'book_detail_screen.dart';
@@ -15,7 +14,6 @@ class MyListingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final listingsAsync = ref.watch(userListingsProvider);
-    final user = ref.watch(currentUserProvider);
 
     return Scaffold(
       appBar: AppBar(

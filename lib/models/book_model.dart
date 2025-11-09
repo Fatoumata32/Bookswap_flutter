@@ -37,7 +37,9 @@ class Book {
       imageUrl: json['imageUrl'] ?? '',
       ownerId: json['ownerId'] ?? '',
       ownerName: json['ownerName'] ?? '',
-      createdAt: (json['createdAt'] as Timestamp).toDate(),
+      createdAt: json['createdAt'] != null
+          ? (json['createdAt'] as Timestamp).toDate()
+          : DateTime.now(),
       status: json['status'] ?? 'available',
     );
   }
