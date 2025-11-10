@@ -38,17 +38,17 @@ flutter run
 # 4. Utiliser "Firestore Debug" pour configurer les index
 ```
 
-## 📱 Fonctionnalités
+## Fonctionnalités
 
-- 🔐 Authentification sécurisée
-- 📚 Parcourir les livres disponibles
-- ➕ Publier des livres à échanger
-- 💬 Chat en temps réel
-- 🔄 Système d'offres d'échange
-- ⚙️ Gestion de profil
-- 🐛 Outil de debug Firestore intégré
+- Authentification sécurisée
+- Parcourir les livres disponibles
+- Publier des livres à échanger
+- Chat en temps réel
+- Système d'offres d'échange
+- Gestion de profil
+- Outil de debug Firestore intégré
 
-## 🔧 Configuration Firebase (si besoin)
+##  Configuration Firebase (si besoin)
 
 ### Option 1: Via Firebase CLI
 ```bash
@@ -59,7 +59,7 @@ firebase deploy --only firestore:indexes,firestore:rules
 ### Option 2: Utiliser l'écran de debug
 Settings > Firestore Debug > Run Tests > Cliquer sur les liens
 
-## 📚 Structure
+##  Structure
 
 - `lib/screens/` - Écrans de l'app
 - `lib/models/` - Modèles de données
@@ -67,7 +67,7 @@ Settings > Firestore Debug > Run Tests > Cliquer sur les liens
 - `lib/providers/` - État global (Riverpod)
 - `lib/widgets/` - Composants réutilisables
 
-## 🐛 Debug
+##  Debug
 
 Si l'app ne fonctionne pas:
 1. Vérifiez que Firebase est configuré
@@ -75,6 +75,6 @@ Si l'app ne fonctionne pas:
 3. Vérifiez les logs pour voir les erreurs exactes
 4. Cliquez sur les liens d'index Firestore
 
-## 📄 Plus d'infos
+##  Plus d'infos
 
 Consultez `FIREBASE_SETUP.md` pour plus de détails sur la configuration Firebase.
