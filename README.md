@@ -15,7 +15,7 @@ Application Flutter permettant aux étudiants d'échanger des manuels scolaires 
    flutter run
    ```
 
-2. **Allez dans l'onglet Settings (⚙️) > "Firestore Debug"**
+2. **Allez dans l'onglet Settings > "Firestore Debug"**
 
 3. **Cliquez sur "Run Firestore Tests"**
    - Les logs afficheront des liens Firebase
