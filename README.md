@@ -2,13 +2,13 @@
 
 Application Flutter permettant aux étudiants d'échanger des manuels scolaires entre eux.
 
-## 🔥 PROBLÈME FIRESTORE? LISEZ CECI!
+##  PROBLÈME FIRESTORE? LISEZ CECI!
 
 ### Erreur: "Error loading chats" ou "Error loading your listings"
 
 **C'EST NORMAL!** Firestore nécessite des index pour fonctionner.
 
-### ✅ Solution en 3 étapes (2 minutes)
+###  Solution en 3 étapes (2 minutes)
 
 1. **Lancez l'application**
    ```bash
@@ -25,7 +25,7 @@ Application Flutter permettant aux étudiants d'échanger des manuels scolaires 
 
 **C'est tout !** L'application fonctionnera parfaitement après.
 
-## 🚀 Installation rapide
+##  Installation rapide
 
 ```bash
 # 1. Installer les dépendances
