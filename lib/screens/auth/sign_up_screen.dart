@@ -43,9 +43,19 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             _passwordController.text,
             _nameController.text.trim(),
           );
-      
+
       if (mounted) {
-        Navigator.of(context).pop();
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Account created successfully!'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+
+        // Navigate back to root - AuthWrapper will handle redirection to home
+        Navigator.of(context).popUntil((route) => route.isFirst);
       }
     } catch (e) {
       if (mounted) {
