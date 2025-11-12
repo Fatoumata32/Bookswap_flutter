@@ -23,6 +23,54 @@ class BookDetailScreen extends ConsumerStatefulWidget {
 
 class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   bool _isInitiatingSwap = false;
+  bool _isStartingChat = false;
+
+  Future<void> _startChat(Book book) async {
+    final user = ref.read(currentUserProvider);
+    if (user == null) return;
+
+    setState(() => _isStartingChat = true);
+
+    try {
+      final firestoreService = ref.read(firestoreServiceProvider);
+
+      // Get current user profile
+      final userProfile = await firestoreService.getUserProfile(user.uid);
+
+      // Create or get chat
+      final chatId = await firestoreService.createOrGetChat(
+        userId1: user.uid,
+        userId2: book.ownerId,
+        userName1: userProfile?.displayName ?? user.email?.split('@')[0] ?? 'Unknown',
+        userName2: book.ownerName,
+        bookId: book.id,
+        bookTitle: book.title,
+      );
+
+      if (mounted) {
+        // Navigate to chat
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ChatScreen(
+              chatId: chatId,
+              recipientName: book.ownerName,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isStartingChat = false);
+    }
+  }
 
   Future<void> _initiateSwap(Book book) async {
     final user = ref.read(currentUserProvider);
@@ -264,12 +312,84 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                       ),
                       const SizedBox(height: 32),
 
-                      // Action button
-                      if (!isOwner && book.status == 'available')
+                      // Action buttons
+                      if (!isOwner && book.status == 'available') ...[
                         CustomButton(
                           text: _isInitiatingSwap ? 'Initiating...' : 'I\'m Interested!',
                           onPressed: () => _initiateSwap(book),
                           isLoading: _isInitiatingSwap,
+                        ),
+                        const SizedBox(height: 12),
+                        OutlinedButton.icon(
+                          onPressed: _isStartingChat ? null : () => _startChat(book),
+                          icon: _isStartingChat
+                              ? const SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Color(0xFFFDB839),
+                                  ),
+                                )
+                              : const Icon(
+                                  Icons.chat_bubble_outline,
+                                  color: Color(0xFFFDB839),
+                                ),
+                          label: Text(
+                            _isStartingChat ? 'Starting...' : 'Chat with Owner',
+                            style: const TextStyle(
+                              color: Color(0xFFFDB839),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            side: const BorderSide(
+                              color: Color(0xFFFDB839),
+                              width: 2,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ],
+
+                      if (!isOwner && book.status == 'pending')
+                        OutlinedButton.icon(
+                          onPressed: _isStartingChat ? null : () => _startChat(book),
+                          icon: _isStartingChat
+                              ? const SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Color(0xFFFDB839),
+                                  ),
+                                )
+                              : const Icon(
+                                  Icons.chat_bubble_outline,
+                                  color: Color(0xFFFDB839),
+                                ),
+                          label: Text(
+                            _isStartingChat ? 'Starting...' : 'Chat with Owner',
+                            style: const TextStyle(
+                              color: Color(0xFFFDB839),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            side: const BorderSide(
+                              color: Color(0xFFFDB839),
+                              width: 2,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
                         ),
 
                       if (book.status == 'pending')

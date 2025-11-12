@@ -8,11 +8,15 @@ import '../models/book_model.dart';
 class BookCard extends StatelessWidget {
   final Book book;
   final VoidCallback onTap;
+  final VoidCallback? onChatTap;
+  final bool showChatButton;
 
   const BookCard({
     super.key,
     required this.book,
     required this.onTap,
+    this.onChatTap,
+    this.showChatButton = false,
   });
 
   @override
@@ -115,6 +119,17 @@ class BookCard extends StatelessWidget {
                   ],
                 ),
               ),
+
+              // Chat button
+              if (showChatButton && onChatTap != null)
+                IconButton(
+                  onPressed: onChatTap,
+                  icon: const Icon(
+                    Icons.chat_bubble_outline,
+                    color: Color(0xFFFDB839),
+                  ),
+                  tooltip: 'Chat with owner',
+                ),
             ],
           ),
         ),

@@ -2,18 +2,70 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../models/book_model.dart';
 import '../providers/listings_provider.dart';
+import '../providers/auth_provider.dart';
 import '../widgets/book_card.dart';
 import '../widgets/loading_spinner.dart';
 import 'book_detail_screen.dart';
 import 'post_book_screen.dart';
+import 'chat_screen.dart';
 
-class BrowseListingsScreen extends ConsumerWidget {
+class BrowseListingsScreen extends ConsumerStatefulWidget {
   const BrowseListingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BrowseListingsScreen> createState() => _BrowseListingsScreenState();
+}
+
+class _BrowseListingsScreenState extends ConsumerState<BrowseListingsScreen> {
+  Future<void> _startChat(Book book) async {
+    final user = ref.read(currentUserProvider);
+    if (user == null) return;
+
+    try {
+      final firestoreService = ref.read(firestoreServiceProvider);
+
+      // Get current user profile
+      final userProfile = await firestoreService.getUserProfile(user.uid);
+
+      // Create or get chat
+      final chatId = await firestoreService.createOrGetChat(
+        userId1: user.uid,
+        userId2: book.ownerId,
+        userName1: userProfile?.displayName ?? user.email?.split('@')[0] ?? 'Unknown',
+        userName2: book.ownerName,
+        bookId: book.id,
+        bookTitle: book.title,
+      );
+
+      if (mounted) {
+        // Navigate to chat
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ChatScreen(
+              chatId: chatId,
+              recipientName: book.ownerName,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final listingsAsync = ref.watch(allListingsProvider);
+    final currentUser = ref.watch(currentUserProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -62,10 +114,14 @@ class BrowseListingsScreen extends ConsumerWidget {
               itemCount: listings.length,
               itemBuilder: (context, index) {
                 final book = listings[index];
+                final isNotOwner = currentUser != null && book.ownerId != currentUser.uid;
+
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: BookCard(
                     book: book,
+                    showChatButton: isNotOwner,
+                    onChatTap: isNotOwner ? () => _startChat(book) : null,
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
