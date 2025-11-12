@@ -67,7 +67,9 @@ class ChatListScreen extends ConsumerWidget {
                 leading: CircleAvatar(
                   backgroundColor: const Color(0xFFFDB839),
                   child: Text(
-                    otherUserName[0].toUpperCase(),
+                    otherUserName.isNotEmpty
+                        ? otherUserName[0].toUpperCase()
+                        : '?',
                     style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,

@@ -69,7 +69,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               backgroundColor: const Color(0xFFFDB839),
               radius: 16,
               child: Text(
-                widget.recipientName[0].toUpperCase(),
+                widget.recipientName.isNotEmpty
+                    ? widget.recipientName[0].toUpperCase()
+                    : '?',
                 style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
