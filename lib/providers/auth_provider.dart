@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/auth_service.dart';
 import '../services/firestore_service.dart';
+import '../services/storage_service.dart';
 import '../models/user_model.dart';
 
 // Auth service provider
@@ -11,6 +12,9 @@ final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 
 // Firestore service provider
 final firestoreServiceProvider = Provider<FirestoreService>((ref) => FirestoreService());
+
+// Storage service provider
+final storageServiceProvider = Provider<StorageService>((ref) => StorageService());
 
 // Auth state stream provider
 final authStateProvider = StreamProvider<User?>((ref) {

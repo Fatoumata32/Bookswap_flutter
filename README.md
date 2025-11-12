@@ -1,54 +1,54 @@
-# BookSwap - Application d'échange de livres
+# BookSwap - Book Exchange Application
 
-Application Flutter permettant aux étudiants d'échanger des manuels scolaires entre eux.
+Flutter application allowing students to exchange textbooks with each other.
 
-##  PROBLÈME FIRESTORE? LISEZ CECI!
+## FIRESTORE ISSUES? READ THIS!
 
-### Erreur: "Error loading chats" ou "Error loading your listings"
+### Error: "Error loading chats" or "Error loading your listings"
 
-**C'EST NORMAL!** Firestore nécessite des index pour fonctionner.
+**THIS IS NORMAL!** Firestore requires indexes to function properly.
 
-###  Solution en 3 étapes (2 minutes)
+### Solution in 3 steps (2 minutes)
 
-1. **Lancez l'application**
+1. **Launch the application**
    ```bash
    flutter run
    ```
 
-2. **Allez dans l'onglet Settings > "Firestore Debug"**
+2. **Go to Settings > "Firestore Debug"**
 
-3. **Cliquez sur "Run Firestore Tests"**
-   - Les logs afficheront des liens Firebase
-   - Cliquez sur ces liens pour créer automatiquement les index
-   - Attendez 2-3 minutes que les index se créent
-   - Redémarrez l'application
+3. **Click on "Run Firestore Tests"**
+   - The logs will display Firebase links
+   - Click on these links to automatically create the indexes
+   - Wait 2-3 minutes for the indexes to be created
+   - Restart the application
 
-**C'est tout !** L'application fonctionnera parfaitement après.
+**That's it!** The application will work perfectly after.
 
-##  Installation rapide
+## Quick Installation
 
 ```bash
-# 1. Installer les dépendances
+# 1. Install dependencies
 flutter pub get
 
-# 2. Lancer sur Android (recommandé pour Firebase)
+# 2. Run on Android (recommended for Firebase)
 flutter run
 
-# 3. Créer un compte dans l'app
-# 4. Utiliser "Firestore Debug" pour configurer les index
+# 3. Create an account in the app
+# 4. Use "Firestore Debug" to configure indexes
 ```
 
-## Fonctionnalités
+## Features
 
-- Authentification sécurisée
-- Parcourir les livres disponibles
-- Publier des livres à échanger
-- Chat en temps réel
-- Système d'offres d'échange
-- Gestion de profil
-- Outil de debug Firestore intégré
+- Secure authentication
+- Browse available books
+- Post books for exchange
+- Real-time chat
+- Exchange offer system
+- Profile management
+- Built-in Firestore debug tool
 
-##  Configuration Firebase (si besoin)
+## Firebase Configuration (if needed)
 
 ### Option 1: Via Firebase CLI
 ```bash
@@ -56,25 +56,25 @@ firebase login
 firebase deploy --only firestore:indexes,firestore:rules
 ```
 
-### Option 2: Utiliser l'écran de debug
-Settings > Firestore Debug > Run Tests > Cliquer sur les liens
+### Option 2: Use the debug screen
+Settings > Firestore Debug > Run Tests > Click on the links
 
-##  Structure
+## Structure
 
-- `lib/screens/` - Écrans de l'app
-- `lib/models/` - Modèles de données
-- `lib/services/` - Services Firebase
-- `lib/providers/` - État global (Riverpod)
-- `lib/widgets/` - Composants réutilisables
+- `lib/screens/` - App screens
+- `lib/models/` - Data models
+- `lib/services/` - Firebase services
+- `lib/providers/` - Global state (Riverpod)
+- `lib/widgets/` - Reusable components
 
-##  Debug
+## Debug
 
-Si l'app ne fonctionne pas:
-1. Vérifiez que Firebase est configuré
-2. Utilisez "Firestore Debug" dans Settings
-3. Vérifiez les logs pour voir les erreurs exactes
-4. Cliquez sur les liens d'index Firestore
+If the app doesn't work:
+1. Check that Firebase is configured
+2. Use "Firestore Debug" in Settings
+3. Check the logs to see exact errors
+4. Click on the Firestore index links
 
-##  Plus d'infos
+## More Info
 
-Consultez `FIREBASE_SETUP.md` pour plus de détails sur la configuration Firebase.
+See `FIREBASE_SETUP.md` for more details on Firebase configuration.
