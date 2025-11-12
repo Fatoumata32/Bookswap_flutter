@@ -49,10 +49,107 @@ class _PostBookScreenState extends ConsumerState<PostBookScreen> {
     super.dispose();
   }
 
-  Future<void> _pickImage() async {
+  Future<void> _showImageSourceDialog() async {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF242B47),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Choose Image Source',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // Camera option
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                      _pickImage(ImageSource.camera);
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFDB839),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: const Icon(
+                            Icons.camera_alt,
+                            size: 40,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Camera',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Gallery option
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                      _pickImage(ImageSource.gallery);
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFDB839),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: const Icon(
+                            Icons.photo_library,
+                            size: 40,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Gallery',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
+      source: source,
       maxWidth: 800,
       maxHeight: 800,
       imageQuality: 85,
@@ -167,7 +264,7 @@ class _PostBookScreenState extends ConsumerState<PostBookScreen> {
             children: [
               // Image picker
               GestureDetector(
-                onTap: _pickImage,
+                onTap: _showImageSourceDialog,
                 child: Container(
                   height: 200,
                   decoration: BoxDecoration(
@@ -176,40 +273,108 @@ class _PostBookScreenState extends ConsumerState<PostBookScreen> {
                     border: Border.all(color: Colors.grey[700]!),
                   ),
                   child: _imageFile != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.file(
-                            _imageFile!,
-                            fit: BoxFit.cover,
-                          ),
+                      ? Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.file(
+                                _imageFile!,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                            ),
+                            Positioned(
+                              top: 8,
+                              right: 8,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFDB839),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.edit,
+                                    color: Colors.black,
+                                    size: 20,
+                                  ),
+                                  onPressed: _showImageSourceDialog,
+                                ),
+                              ),
+                            ),
+                          ],
                         )
                       : widget.book?.imageUrl != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                widget.book!.imageUrl,
-                                fit: BoxFit.cover,
-                              ),
+                          ? Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    widget.book!.imageUrl,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 8,
+                                  right: 8,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFFDB839),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.edit,
+                                        color: Colors.black,
+                                        size: 20,
+                                      ),
+                                      onPressed: _showImageSourceDialog,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             )
                           : Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.add_photo_alternate,
+                                  Icons.menu_book,
                                   size: 60,
-                                  color: Colors.grey[600],
+                                  color: const Color(0xFFFDB839),
                                 ),
-                                const SizedBox(height: 8),
+                                const SizedBox(height: 12),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.camera_alt,
+                                      size: 20,
+                                      color: Colors.grey[500],
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Icon(
+                                      Icons.photo_library,
+                                      size: 20,
+                                      color: Colors.grey[500],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
                                 Text(
                                   'Tap to add book cover',
-                                  style: TextStyle(color: Colors.grey[400]),
+                                  style: TextStyle(
+                                    color: Colors.grey[300],
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  '(Optional - placeholder will be used)',
+                                  'Camera or Gallery',
                                   style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: 12,
+                                    color: const Color(0xFFFDB839),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ],
