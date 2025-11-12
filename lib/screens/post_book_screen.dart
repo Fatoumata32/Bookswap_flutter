@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import '../models/book_model.dart';
 import '../providers/auth_provider.dart';
+import '../providers/listings_provider.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 
@@ -222,6 +223,13 @@ class _PostBookScreenState extends ConsumerState<PostBookScreen> {
       }
 
       if (mounted) {
+        // Invalidate providers to refresh the lists
+        ref.invalidate(userListingsProvider);
+        ref.invalidate(allListingsProvider);
+        if (widget.book != null) {
+          ref.invalidate(bookProvider(widget.book!.id));
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
