@@ -2,11 +2,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/book_model.dart';
-import '../services/storage_service.dart';
 import 'auth_provider.dart';
-
-// Storage service provider
-final storageServiceProvider = Provider<StorageService>((ref) => StorageService());
 
 // All listings stream provider
 final allListingsProvider = StreamProvider<List<Book>>((ref) {
