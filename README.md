@@ -2,28 +2,10 @@
 
 Flutter application allowing students to exchange textbooks with each other.
 
-## FIRESTORE ISSUES? READ THIS!
-
-### Error: "Error loading chats" or "Error loading your listings"
-
-**THIS IS NORMAL!** Firestore requires indexes to function properly.
-
-### Solution in 3 steps (2 minutes)
-
 1. **Launch the application**
    ```bash
    flutter run
    ```
-
-2. **Go to Settings > "Firestore Debug"**
-
-3. **Click on "Run Firestore Tests"**
-   - The logs will display Firebase links
-   - Click on these links to automatically create the indexes
-   - Wait 2-3 minutes for the indexes to be created
-   - Restart the application
-
-**That's it!** The application will work perfectly after.
 
 ## Quick Installation
 
@@ -35,7 +17,7 @@ flutter pub get
 flutter run
 
 # 3. Create an account in the app
-# 4. Use "Firestore Debug" to configure indexes
+
 ```
 
 ## Features
@@ -48,33 +30,12 @@ flutter run
 - Profile management
 - Built-in Firestore debug tool
 
-## Firebase Configuration (if needed)
+## Firebase Configuration
 
-### Option 1: Via Firebase CLI
-```bash
-firebase login
-firebase deploy --only firestore:indexes,firestore:rules
-```
+To set up Firebase for BookSwap, we first configured Firebase Authentication to allow users to sign in using both email and password authentication as well as Google Sign-In. This ensures secure and flexible user login options.
 
-### Option 2: Use the debug screen
-Settings > Firestore Debug > Run Tests > Click on the links
+Next, we activated Firestore as our primary database to store and manage the application's data in real time. Firestore supports collections and documents, which we use to organize user profiles, book listings, chats, and swap offers efficiently.
 
-## Structure
+We decided not to activate Firebase Storage because it would require additional costs, and for the current scope of the project, Firestore was sufficient to handle our data needs.
 
-- `lib/screens/` - App screens
-- `lib/models/` - Data models
-- `lib/services/` - Firebase services
-- `lib/providers/` - Global state (Riverpod)
-- `lib/widgets/` - Reusable components
-
-## Debug
-
-If the app doesn't work:
-1. Check that Firebase is configured
-2. Use "Firestore Debug" in Settings
-3. Check the logs to see exact errors
-4. Click on the Firestore index links
-
-## More Info
-
-See `FIREBASE_SETUP.md` for more details on Firebase configuration.
+For deploying security rules and indexes related to Firestore, we use the Firebase CLI tool, which helps maintain proper access control and query performance.
