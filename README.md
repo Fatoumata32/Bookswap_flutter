@@ -2,6 +2,8 @@
 
 Flutter application allowing students to exchange textbooks with each other.
 
+Go to the branch master_fat
+
 1. **Launch the application**
    ```bash
    flutter run
